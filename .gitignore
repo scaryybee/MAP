@@ -1,0 +1,8 @@
+# Gradle
+.gradle
+
+# IntelliJ
+.idea
+
+# Test File
+src/main/kotlin/io/github/asr/mafp/Test.kt
