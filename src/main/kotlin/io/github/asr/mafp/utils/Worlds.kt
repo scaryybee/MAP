@@ -15,6 +15,12 @@ val Plugin.netherWorld: World
 val Plugin.enderWorld: World
     get() = server.getWorld("world_the_ender")!!
 
-fun addWorld(namespacedKey: NamespacedKey): World {
-    return Bukkit.createWorld(WorldCreator(namespacedKey))!!
+fun Plugin.addWorld(namespacedKey: NamespacedKey): World {
+    return server.createWorld(WorldCreator(namespacedKey))!!
 }
+
+fun World.isOverWorld(): Boolean = this.name == "world"
+
+fun World.isNetherWorld(): Boolean = this.name == "world_nether"
+
+fun World.isEnderWorld(): Boolean = this.name == "world_the_ender"
