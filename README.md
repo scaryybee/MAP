@@ -17,11 +17,11 @@ class Sample : JavaPlugin() {
     override fun onEnable() {
         val sampleWorld = addWorld(NamespacedKey("sample"))
         wait(10.0) {
-            spawn(sampleWorld.players)
+            sendMessageToPlayers(sampleWorld.players)
         }
     }
     
-    fun sendMessageToPlayers(playerList: List<Player>) {
+    private fun sendMessageToPlayers(playerList: List<Player>) {
         playerList.forEach { 
             it.sendMessage(Component.text("Hello!"))
         }
