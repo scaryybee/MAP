@@ -2,7 +2,6 @@ package io.github.asr.mafp.player
 
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
-import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.plugin.Plugin
@@ -20,7 +19,7 @@ fun Plugin.playerHead(uuid: UUID): ItemStack =
         meta.owningPlayer = server.getPlayer(uuid)
     }
 
-fun playerHead(player: Player): ItemStack =
+fun playerHead(player: OfflinePlayer): ItemStack =
     ItemStack(Material.PLAYER_HEAD).apply {
         val meta = this.itemMeta as SkullMeta
         meta.owningPlayer = player
