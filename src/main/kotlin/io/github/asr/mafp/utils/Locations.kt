@@ -1,5 +1,6 @@
 package io.github.asr.mafp.utils
 
+import io.papermc.paper.event.player.AsyncChatEvent
 import org.bukkit.Location
 import org.bukkit.Particle
 import org.bukkit.Sound

@@ -3,14 +3,14 @@ package io.github.asr.mafp.utils
 import org.bukkit.Bukkit
 import org.bukkit.plugin.Plugin
 
-fun Task.runLater(plugin: Plugin, tick: Long) {
-    Bukkit.getScheduler().runTaskLater(plugin, Runnable {
-        this.run()
+fun Plugin.runLater(task: Task, tick: Long) {
+    Bukkit.getScheduler().runTaskLater(this, Runnable {
+        task.run()
     }, tick)
 }
 
-fun Task.runLater(plugin: Plugin, second: Double) {
-    this.runLater(plugin, second * 20)
+fun Plugin.runLater(task: Task, second: Double) {
+    this.runLater(task, (second * 20).toLong())
 }
 
 fun Plugin.wait(tick: Long, next: () -> Unit) = Bukkit.getScheduler().runTaskLater(this, Runnable(next), tick)
