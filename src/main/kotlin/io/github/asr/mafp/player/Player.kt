@@ -12,7 +12,9 @@ import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 import java.util.*
 
-fun Player.setSleep() = this.sleep(this.location, true)
+fun Player.sleep() = this.sleep(this.location, true)
+
+fun Player.wakeUp() = this.wakeup(false)
 
 fun Player.say(to: Set<Audience>,message: Component) {
     AsyncChatEvent(true, this, to, ChatRenderer.defaultRenderer(), message, message)
