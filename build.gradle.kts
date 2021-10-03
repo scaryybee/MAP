@@ -5,6 +5,11 @@ plugins {
 group = properties["group"]!!
 version = properties["version"]!!
 
+configurations {
+    create("mojangMapping")
+    create("spigotMapping")
+}
+
 repositories {
     mavenCentral()
     maven("https://papermc.io/repo/repository/maven-public/")
@@ -20,3 +25,4 @@ tasks {
         kotlinOptions.jvmTarget = "16"
     }
 }
+
