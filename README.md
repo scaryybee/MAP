@@ -23,8 +23,12 @@ class Sample : JavaPlugin() {
     
     private fun sendMessageToPlayers(playerList: List<Player>) {
         playerList.forEach { 
-            it.sendMessage(Component.text("Hello!"))
+            Component.text("Hello!") sendTo it
+            
+            it to Location(overWorld, 0.0, 60.0, 0.0)
         }
+        
+        wait(40L) { Component.text("Bye!") sendTo playerList }
     }
 }
 ```
