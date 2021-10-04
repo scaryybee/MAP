@@ -6,9 +6,8 @@ import org.bukkit.event.entity.EntityDamageEvent
 class MAPPlayerDeathEvent(
     private val event: EntityDamageEvent,
     private val deathPlayer: Player,
-    private var cancelled: Boolean = false) {
-    val entityDamageEvent: EntityDamageEvent
-        get() = event
+    private var cancelled: Boolean = false
+) {
 
     val player: Player
         get() = deathPlayer
@@ -19,4 +18,7 @@ class MAPPlayerDeathEvent(
             event.isCancelled = value
             field = value
         }
+
+    val entityDamageEvent: EntityDamageEvent
+        get() = event
 }

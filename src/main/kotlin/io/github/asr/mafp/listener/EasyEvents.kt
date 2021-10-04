@@ -1,12 +1,13 @@
 package io.github.asr.mafp.listener
 
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.block.Action
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
+import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
 
 fun Plugin.events(init: EasyEvents.() -> Unit) {
@@ -14,6 +15,9 @@ fun Plugin.events(init: EasyEvents.() -> Unit) {
 }
 
 class EasyEvents : Listener {
+    private val itemMap = mutableMapOf<ItemStack, PlayerInteractEvent.() -> Unit>()
+    private val materialMap = mutableMapOf<Material, PlayerInteractEvent.() -> Unit>()
+
     private var rightClick: PlayerInteractEvent.() -> Unit = {}
     private var leftClick: PlayerInteractEvent.() -> Unit = {}
     private var playerDeath: MAPPlayerDeathEvent.() -> Unit = {}
@@ -35,6 +39,10 @@ class EasyEvents : Listener {
         leftClick = init
     }
 
+    infix fun ItemStack.withInteract(action: PlayerInteractEvent.() -> Unit) { itemMap[this] = action }
+
+    infix fun Material.withInteract(action: PlayerInteractEvent.() -> Unit) { materialMap[this] = action }
+
     fun onPlayerDeath(init: MAPPlayerDeathEvent.() -> Unit) { playerDeath = init }
 
     private fun checkHandType(typeList: List<EquipmentSlot>, event: PlayerInteractEvent): Boolean {
@@ -45,7 +53,15 @@ class EasyEvents : Listener {
     @EventHandler
     private fun onPlayerInteract(event: PlayerInteractEvent) {
         if (event.action.isRightClick && checkHandType(rightClickHandType, event)) rightClick.invoke(event)
-        else if (event.action.isLeftClick && checkHandType(leftClickHandType, event)) leftClick.invoke(event)
+        if (event.action.isLeftClick && checkHandType(leftClickHandType, event)) leftClick.invoke(event)
+
+        val mainHandItem = event.player.inventory.itemInMainHand
+        val offHandItem = event.player.inventory.itemInOffHand
+        if (itemMap.containsKey(mainHandItem)) itemMap[mainHandItem]!!.invoke(event)
+        if (itemMap.containsKey(offHandItem)) itemMap[offHandItem]!!.invoke(event)
+
+        if (materialMap.containsKey(mainHandItem.type)) materialMap[mainHandItem.type]!!.invoke(event)
+        if (materialMap.containsKey(offHandItem.type)) materialMap[offHandItem.type]!!.invoke(event)
     }
 
     @EventHandler
