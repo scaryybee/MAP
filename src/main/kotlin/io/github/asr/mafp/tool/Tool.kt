@@ -2,8 +2,10 @@ package io.github.asr.mafp.tool
 
 import org.bukkit.Material
 
-enum class Tool(material : Material) {
+enum class Tool(private val material : Material) {
     SHEARS(Material.SHEARS);
+
+    fun toMaterial(): Material = material
 
     companion object {
         fun materialList() : List<Material> {
