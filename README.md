@@ -16,8 +16,22 @@ Sample
 class Sample : JavaPlugin() {
     override fun onEnable() {
         val sampleWorld = addWorld(NamespacedKey("sample"))
-        wait(10.0) {
-            sendMessageToPlayers(sampleWorld.players)
+        events {
+            onPlayerJoin {
+                wait(10.0) {
+                    sendMessageToPlayers(sampleWorld.players)
+                }
+                
+                loop(20L, 10) {
+                    player.sendMessage(Component.text(time()))
+                }
+            }
+            
+            onPlayerDeath {
+                isCancelled = true
+                
+                Text("${player.name} is Die!").toComponent() sendTo sampleWorld.players
+            }
         }
     }
     

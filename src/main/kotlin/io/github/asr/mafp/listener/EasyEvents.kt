@@ -6,6 +6,8 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
@@ -25,25 +27,32 @@ class EasyEvents : Listener {
     private var rightClickHandType = mutableListOf<EquipmentSlot>()
     private var leftClickHandType = mutableListOf<EquipmentSlot>()
 
+    private var playerJoin: PlayerJoinEvent.() -> Unit = {}
+    private var playerQuit: PlayerQuitEvent.() -> Unit = {}
+
     fun addEvent(plugin: Plugin) {
         plugin.server.pluginManager.registerEvents(this, plugin)
     }
 
-    fun onRightClick(vararg handType: EquipmentSlot = emptyArray(), init: PlayerInteractEvent.() -> Unit) {
+    fun onRightClick(vararg handType: EquipmentSlot = emptyArray(), action: PlayerInteractEvent.() -> Unit) {
         handType.forEach { rightClickHandType.add(it) }
-        rightClick = init
+        rightClick = action
     }
 
-    fun onLeftClick(vararg handType: EquipmentSlot = emptyArray(), init: PlayerInteractEvent.() -> Unit) {
+    fun onLeftClick(vararg handType: EquipmentSlot = emptyArray(), action: PlayerInteractEvent.() -> Unit) {
         handType.forEach { leftClickHandType.add(it) }
-        leftClick = init
+        leftClick = action
     }
 
     infix fun ItemStack.withInteract(action: PlayerInteractEvent.() -> Unit) { itemMap[this] = action }
 
     infix fun Material.withInteract(action: PlayerInteractEvent.() -> Unit) { materialMap[this] = action }
 
-    fun onPlayerDeath(init: MAPPlayerDeathEvent.() -> Unit) { playerDeath = init }
+    fun onPlayerDeath(action: MAPPlayerDeathEvent.() -> Unit) { playerDeath = action }
+
+    fun onPlayerJoin(action: PlayerJoinEvent.() -> Unit) { playerJoin = action }
+
+    fun onPlayerQuit(action: PlayerQuitEvent.() -> Unit) { playerQuit = action }
 
     private fun checkHandType(typeList: List<EquipmentSlot>, event: PlayerInteractEvent): Boolean {
         if (typeList.isEmpty()) return true
@@ -51,7 +60,7 @@ class EasyEvents : Listener {
     }
 
     @EventHandler
-    private fun onPlayerInteract(event: PlayerInteractEvent) {
+    private fun onPlayerInteractEvent(event: PlayerInteractEvent) {
         if (event.action.isRightClick && checkHandType(rightClickHandType, event)) rightClick.invoke(event)
         if (event.action.isLeftClick && checkHandType(leftClickHandType, event)) leftClick.invoke(event)
 
@@ -65,10 +74,16 @@ class EasyEvents : Listener {
     }
 
     @EventHandler
-    private fun onEntityDamage(event: EntityDamageEvent) {
+    private fun onEntityDamageEvent(event: EntityDamageEvent) {
         if (event.entity !is Player) return
         val player = event.entity as Player
 
         if (player.health < event.damage) playerDeath.invoke(MAPPlayerDeathEvent(event, player))
     }
+
+    @EventHandler
+    private fun onPlayerJoinEvent(event: PlayerJoinEvent) = playerJoin.invoke(event)
+
+    @EventHandler
+    private fun onPlayerQuitEvent(event: PlayerQuitEvent) = playerQuit.invoke(event)
 }

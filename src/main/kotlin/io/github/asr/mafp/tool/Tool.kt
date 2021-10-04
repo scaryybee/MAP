@@ -8,6 +8,8 @@ enum class Tool(private val material : Material) {
     fun toMaterial(): Material = material
 
     companion object {
+
+        @JvmStatic
         fun materialList() : List<Material> {
             val list = mutableListOf<Material>()
 
@@ -47,6 +49,7 @@ enum class Tool(private val material : Material) {
             fun toMaterial() : Material = material
 
             companion object {
+                @JvmStatic
                 fun valuesList() : List<Pickaxe> = listOf(WOOD, STONE, IRON, GOLD, DIAMOND, NETHERITE)
             }
         }
@@ -72,6 +75,7 @@ enum class Tool(private val material : Material) {
             fun toMaterial() : Material = material
 
             companion object {
+                @JvmStatic
                 fun valuesList() : List<Axe> = listOf(WOOD, STONE, IRON, GOLD, DIAMOND, NETHERITE)
             }
         }
@@ -97,6 +101,7 @@ enum class Tool(private val material : Material) {
             fun toMaterial() : Material = material
 
             companion object {
+                @JvmStatic
                 fun valuesList() : List<Shovel> = listOf(WOOD, STONE, IRON, GOLD, DIAMOND, NETHERITE)
             }
         }
@@ -122,6 +127,7 @@ enum class Tool(private val material : Material) {
             fun toMaterial() : Material = material
 
             companion object {
+                @JvmStatic
                 fun valuesList() : List<Hoe> = listOf(WOOD, STONE, IRON, GOLD, DIAMOND, NETHERITE)
             }
         }
