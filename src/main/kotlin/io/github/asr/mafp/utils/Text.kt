@@ -15,11 +15,13 @@ class Text(private val text: String) {
 
     override fun toString(): String = text
 
-    fun text(): String = text
+    fun text() = text
 
-    fun length(): Int = text.length
+    fun length() = text.length
 
     fun toComponent(): Component = Component.text(text)
+
+    fun tc(): Component = toComponent()
 
     infix fun addTextBack(text: Text): Text = Text(text() + text.text())
 

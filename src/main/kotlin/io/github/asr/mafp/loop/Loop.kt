@@ -7,7 +7,7 @@ import org.bukkit.plugin.Plugin
 lateinit var loopAction: Loop.() -> Unit
 
 fun Plugin.loop(tickGab: Long, endLoop: Int, action: Loop.() -> Unit) {
-    val loop = Loop()
+    val loop = Loop(1)
     loopAction = action
     val task = server.scheduler.scheduleSyncRepeatingTask(
         this, {
@@ -18,8 +18,19 @@ fun Plugin.loop(tickGab: Long, endLoop: Int, action: Loop.() -> Unit) {
     wait(endLoop * tickGab) { server.scheduler.cancelTask(task) }
 }
 
-class Loop {
-    private var time = 0
+fun Plugin.loop(tickGab: Long, endLoop: Int, timeStart: Int, action: Loop.() -> Unit) {
+    val loop = Loop(timeStart)
+    loopAction = action
+    val task = server.scheduler.scheduleSyncRepeatingTask(
+        this, {
+            loopAction.invoke(loop)
+            loop.looping()
+        }, 0L, tickGab)
+
+    wait(endLoop * tickGab) { server.scheduler.cancelTask(task) }
+}
+
+class Loop(private var time: Int = 1) {
 
     fun time(): Int = time
 
