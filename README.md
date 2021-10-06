@@ -1,15 +1,48 @@
 # More API for Paper
 - Add at Minecraft Paper API
 
-## How can I use MAP?
-- It's Not Completed
-- Before I make release, You may use my code
-- After I make release, Use just release
-
 ### What can MAP help me?
 - Map Can Help Your Coding.
 - You can reduce time to do.
 - Easy Functions!
+
+Maven ( pom.xml )
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+
+<dependency>
+    <groupId>com.github.AtSignRANK</groupId>
+    <artifactId>MAP</artifactId>
+    <version>Version</version>
+</dependency>
+```
+
+Gradle Groovy DSL ( build.gradle )
+```gradle
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    implementation "com.github.AtSignRANK:MAP:Version"
+}
+```
+
+Gradle Kotlin DSL ( build.gradle.kts )
+```gradle
+repositories {
+    maven("https://jitpack.io")
+}
+
+dependencies {
+    implementation("com.github.AtSignRANK:MAP:Version")
+}
+```
 
 Sample
 ```kotlin
