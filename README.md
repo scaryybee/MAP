@@ -73,6 +73,8 @@ class Sample : JavaPlugin() {
             Component.text("Hello!") sendTo it
             
             it to Location(overWorld, 0.0, 60.0, 0.0)
+            
+            it.watch(Location(overWorld, 1.0, 60.0, 5.0))
         }
         
         wait(40L) { Component.text("Bye!") sendTo playerList }
