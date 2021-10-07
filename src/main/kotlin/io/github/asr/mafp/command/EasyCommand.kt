@@ -11,7 +11,7 @@ class EasyCommand : CommandExecutor {
     private val commandActionMap = mutableMapOf<String, MAPCommandSendEvent.() -> Unit>()
 
     fun addCommand(commandName: String, action: MAPCommandSendEvent.() -> Unit) {
-        Bukkit.getServer().getPluginCommand(commandName)
+        Bukkit.getServer().getPluginCommand(commandName)?.setExecutor(Commands())
         commandActionMap[commandName] = action
     }
 
