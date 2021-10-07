@@ -1,2 +1,2 @@
-rootProject.name = "map-project"
+rootProject.name = "MAP"
 

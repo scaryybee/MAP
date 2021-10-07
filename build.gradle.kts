@@ -1,11 +1,19 @@
 plugins {
     kotlin("jvm") version "1.5.31"
     id("com.github.johnrengelman.shadow") version "7.0.0"
+    id("org.jetbrains.dokka") version "1.5.0"
     `maven-publish`
+    signing
 }
 
 group = properties["group"]!!
 version = properties["version"]!!
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(16))
+    }
+}
 
 repositories {
     mavenCentral()
@@ -17,33 +25,29 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
 }
 
-val shade = configurations.create("shade")
-shade.extendsFrom(configurations.implementation.get())
-
 tasks {
     javadoc {
         options.encoding = "UTF-8"
     }
 
-    compileKotlin {
-        kotlinOptions.jvmTarget = "16"
-    }
-
-    create<Jar>("sourceJar") {
-        archiveClassifier.set("source")
+    create<Jar>("sourcesJar") {
+        archiveClassifier.set("sources")
         from(sourceSets["main"].allSource)
     }
 
-    jar {
-        from (shade.map { if (it.isDirectory) it else zipTree(it) })
+    create<Jar>("javadocJar") {
+        archiveClassifier.set("javadoc")
+        dependsOn("dokkaHtml")
+        from("$buildDir/dokka/html")
     }
 }
 
 publishing {
     publications {
-        create<MavenPublication>(rootProject.name) {
+        create<MavenPublication>(project.name) {
             from(components["java"])
-            artifact(tasks["sourceJar"])
+            artifact(tasks["sourcesJar"])
+            artifact(tasks["javadocJar"])
         }
     }
 }
