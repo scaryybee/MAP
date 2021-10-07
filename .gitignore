@@ -6,5 +6,6 @@ build
 .idea
 
 # Test File
+src/main/java/io/github/asr/mafp/TestJava.java
 src/main/kotlin/io/github/asr/mafp/Test.kt
 src/main/resources

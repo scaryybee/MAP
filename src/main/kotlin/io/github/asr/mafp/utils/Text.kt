@@ -13,7 +13,7 @@ class Text(private val text: String) {
     constructor() : this("")
     constructor(component: Component) : this(component.insertion()!!)
 
-    override fun toString(): String = text
+    override fun toString(): String = "Text(text $text hash ${hashCode()})"
 
     fun text() = text
 
@@ -22,6 +22,8 @@ class Text(private val text: String) {
     fun toComponent(): Component = Component.text(text)
 
     fun tc(): Component = toComponent()
+
+    fun isEmpty() = text == ""
 
     infix fun addTextBack(text: Text): Text = Text(text() + text.text())
 

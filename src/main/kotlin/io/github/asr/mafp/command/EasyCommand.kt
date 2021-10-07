@@ -11,11 +11,13 @@ class EasyCommand : CommandExecutor {
     private val commandActionMap = mutableMapOf<String, MAPCommandSendEvent.() -> Unit>()
 
     fun addCommand(commandName: String, action: MAPCommandSendEvent.() -> Unit) {
-        Bukkit.getServer().getPluginCommand(commandName)?.setExecutor(Commands())
+        Bukkit.getServer().getPluginCommand(commandName)?.setExecutor(this)
         commandActionMap[commandName] = action
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+        MAPCommandSendEvent(sender, command, args)
+
         if (commandActionMap.containsKey(command.name)) {
             commandActionMap[command.name]!!.invoke(MAPCommandSendEvent(sender, command, args))
         }
