@@ -16,8 +16,6 @@ class EasyCommand : CommandExecutor {
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        MAPCommandSendEvent(sender, command, args)
-
         if (commandActionMap.containsKey(command.name)) {
             commandActionMap[command.name]!!.invoke(MAPCommandSendEvent(sender, command, args))
         }
