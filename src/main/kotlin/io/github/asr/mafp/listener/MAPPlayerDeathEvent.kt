@@ -13,7 +13,7 @@ class MAPPlayerDeathEvent(
         get() = deathPlayer
 
     var isCancelled: Boolean = false
-        get() = cancelled
+        get() = event.isCancelled
         set(value) {
             event.isCancelled = value
             field = value

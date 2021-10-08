@@ -21,9 +21,9 @@ infix fun Entity.to(location: Location) = this.teleport(location)
 
 infix fun Entity.to(entity: Entity) = this.teleport(entity)
 
-fun Entity.watch(loc: Location) {
+infix fun Entity.watch(loc: Location) {
     loc.direction = loc.toVector().subtract(this.location.toVector())
     this to loc
 }
 
-fun Entity.watch(entity: Entity) = this.watch(entity.location)
+infix fun Entity.watch(entity: Entity) = this watch entity.location

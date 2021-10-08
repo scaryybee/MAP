@@ -1,5 +1,6 @@
 package io.github.asr.mafp.listener
 
+import io.papermc.paper.event.player.AsyncChatEvent
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -30,6 +31,8 @@ class EasyEvents : Listener {
     private var playerJoin: PlayerJoinEvent.() -> Unit = {}
     private var playerQuit: PlayerQuitEvent.() -> Unit = {}
 
+    private var playerSendMessage: MAPPlayerChatEvent.() -> Unit = {}
+
     fun addEvent(plugin: Plugin) {
         plugin.server.pluginManager.registerEvents(this, plugin)
     }
@@ -53,6 +56,8 @@ class EasyEvents : Listener {
     fun onPlayerJoin(action: PlayerJoinEvent.() -> Unit) { playerJoin = action }
 
     fun onPlayerQuit(action: PlayerQuitEvent.() -> Unit) { playerQuit = action }
+
+    fun onChat(action: MAPPlayerChatEvent.() -> Unit) { playerSendMessage = action }
 
     private fun checkHandType(typeList: List<EquipmentSlot>, event: PlayerInteractEvent): Boolean {
         if (typeList.isEmpty()) return true
@@ -86,4 +91,14 @@ class EasyEvents : Listener {
 
     @EventHandler
     private fun onPlayerQuitEvent(event: PlayerQuitEvent) = playerQuit.invoke(event)
+
+    @EventHandler
+    private fun onAsyncChat(event: AsyncChatEvent) {
+        val targets = mutableListOf<Player>()
+        event.viewers().forEach {
+            targets.add(it as Player)
+        }
+
+        playerSendMessage.invoke(MAPPlayerChatEvent(event, event.player))
+    }
 }
