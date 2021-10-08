@@ -10,13 +10,13 @@ import java.util.*
 fun Plugin.playerHead(name: String): ItemStack =
     ItemStack(Material.PLAYER_HEAD).apply {
         val meta = this.itemMeta as SkullMeta
-        meta.owningPlayer = server.getPlayer(name)
+        meta.owningPlayer = offlinePlayer(name)
     }
 
 fun Plugin.playerHead(uuid: UUID): ItemStack =
     ItemStack(Material.PLAYER_HEAD).apply {
         val meta = this.itemMeta as SkullMeta
-        meta.owningPlayer = server.getPlayer(uuid)
+        meta.owningPlayer = offlinePlayer(uuid)
     }
 
 fun playerHead(player: OfflinePlayer): ItemStack =

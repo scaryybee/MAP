@@ -8,6 +8,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
@@ -32,6 +33,8 @@ class EasyEvents : Listener {
     private var playerQuit: PlayerQuitEvent.() -> Unit = {}
 
     private var playerSendMessage: MAPPlayerChatEvent.() -> Unit = {}
+
+    private var playerMove: PlayerMoveEvent.() -> Unit = {}
 
     fun addEvent(plugin: Plugin) {
         plugin.server.pluginManager.registerEvents(this, plugin)
@@ -58,6 +61,8 @@ class EasyEvents : Listener {
     fun onPlayerQuit(action: PlayerQuitEvent.() -> Unit) { playerQuit = action }
 
     fun onChat(action: MAPPlayerChatEvent.() -> Unit) { playerSendMessage = action }
+
+    fun onPlayerMove(action: PlayerMoveEvent.() -> Unit) { playerMove = action }
 
     private fun checkHandType(typeList: List<EquipmentSlot>, event: PlayerInteractEvent): Boolean {
         if (typeList.isEmpty()) return true
@@ -101,4 +106,7 @@ class EasyEvents : Listener {
 
         playerSendMessage.invoke(MAPPlayerChatEvent(event, event.player))
     }
+
+    @EventHandler
+    private fun onPlayerMove(event: PlayerMoveEvent) = playerMove.invoke(event)
 }

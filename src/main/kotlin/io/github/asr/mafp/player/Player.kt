@@ -29,10 +29,7 @@ fun Plugin.offlinePlayer(name: String): OfflinePlayer? {
     return null
 }
 
-fun Plugin.offlinePlayer(uuid: UUID): OfflinePlayer? {
-    server.offlinePlayers.forEach { if (it.uniqueId == uuid) return it }
-    return null
-}
+fun Plugin.offlinePlayer(uuid: UUID): OfflinePlayer = server.getOfflinePlayer(uuid)
 
 fun Plugin.player(name: String): Player? {
     server.onlinePlayers.forEach { if (it.name == name) return it }

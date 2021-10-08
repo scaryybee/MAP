@@ -28,7 +28,7 @@ class MAPPlayerChatEvent(
 
     fun message() = event.message()
 
-    fun sendMessageToTargets() = targets.forEach {
+    fun sendMessageChat() = targets.forEach {
         it.sendMessage("<${sender.name}> ${event.message()}")
     }
 }
