@@ -88,6 +88,9 @@ class EasyEvents : Listener {
         if (event.entity !is Player) return
         val player = event.entity as Player
 
+        val checkList = listOf(player.inventory.itemInMainHand.type, player.inventory.itemInOffHand.type)
+
+        if (checkList.contains(Material.TOTEM_OF_UNDYING)) return
         if (player.health < event.damage) playerDeath.invoke(MAPPlayerDeathEvent(event, player))
     }
 
@@ -98,7 +101,7 @@ class EasyEvents : Listener {
     private fun onPlayerQuitEvent(event: PlayerQuitEvent) = playerQuit.invoke(event)
 
     @EventHandler
-    private fun onAsyncChat(event: AsyncChatEvent) {
+    private fun onAsyncChatEvent(event: AsyncChatEvent) {
         val targets = mutableListOf<Player>()
         event.viewers().forEach {
             targets.add(it as Player)
@@ -108,5 +111,5 @@ class EasyEvents : Listener {
     }
 
     @EventHandler
-    private fun onPlayerMove(event: PlayerMoveEvent) = playerMove.invoke(event)
+    private fun onPlayerMoveEvent(event: PlayerMoveEvent) = playerMove.invoke(event)
 }
