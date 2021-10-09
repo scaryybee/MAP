@@ -51,3 +51,5 @@ fun Location.circle(radius: Double, gab: Double): List<Location> {
 
     return locationList
 }
+
+fun Location.forward(distance: Double) = this.clone().add(this.direction.multiply(distance))

@@ -6,10 +6,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageEvent
-import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.event.player.PlayerJoinEvent
-import org.bukkit.event.player.PlayerMoveEvent
-import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.event.player.*
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
@@ -35,6 +32,8 @@ class EasyEvents : Listener {
     private var playerSendMessage: MAPPlayerChatEvent.() -> Unit = {}
 
     private var playerMove: PlayerMoveEvent.() -> Unit = {}
+
+    private var playerClearAdvancement: PlayerAdvancementDoneEvent.() -> Unit = {}
 
     fun addEvent(plugin: Plugin) {
         plugin.server.pluginManager.registerEvents(this, plugin)
@@ -63,6 +62,8 @@ class EasyEvents : Listener {
     fun onChat(action: MAPPlayerChatEvent.() -> Unit) { playerSendMessage = action }
 
     fun onPlayerMove(action: PlayerMoveEvent.() -> Unit) { playerMove = action }
+
+    fun onClearAdvancement(action: PlayerAdvancementDoneEvent.() -> Unit) { playerClearAdvancement = action }
 
     private fun checkHandType(typeList: List<EquipmentSlot>, event: PlayerInteractEvent): Boolean {
         if (typeList.isEmpty()) return true
@@ -112,4 +113,7 @@ class EasyEvents : Listener {
 
     @EventHandler
     private fun onPlayerMoveEvent(event: PlayerMoveEvent) = playerMove.invoke(event)
+
+    @EventHandler
+    private fun onPlayerClearAdvancementEvent(event: PlayerAdvancementDoneEvent) = playerClearAdvancement.invoke(event)
 }
