@@ -1,6 +1,5 @@
 package io.github.asr.mafp.utils
 
-import io.papermc.paper.event.player.AsyncChatEvent
 import org.bukkit.Location
 import org.bukkit.Particle
 import org.bukkit.Sound
@@ -8,6 +7,7 @@ import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.event.entity.CreatureSpawnEvent
 import org.bukkit.util.Consumer
+import kotlin.math.sqrt
 
 fun Location.spawnEntity(type: EntityType) {
     world.spawnEntity(this, type)
@@ -37,4 +37,17 @@ fun Location.spawnParticle(particle: Particle, number: Int) {
 
 fun Location.playSound(sound: Sound, volume: Float) {
     world.playSound(this, sound, volume, pitch)
+}
+
+fun Location.circle(radius: Double, gab: Double): List<Location> {
+    val locationList = mutableListOf<Location>()
+
+    for (i in -(radius * 100).toInt() until (radius * 100).toInt() step (gab * 100).toInt()) {
+        val xLoc = i.toDouble() / 100
+        val zLoc = sqrt(radius * radius - xLoc * xLoc)
+
+        locationList.add(Location(world, xLoc, this.y, zLoc))
+    }
+
+    return locationList
 }

@@ -22,7 +22,8 @@ class MAPPlayerChatEvent(
         }
     }
 
-    fun asyncChatEvent() = event
+    val asyncChatEvent
+        get() = event
 
     fun sender() = sender
 
