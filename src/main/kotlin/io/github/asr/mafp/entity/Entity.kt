@@ -23,7 +23,7 @@ infix fun Entity.to(location: Location) = this.teleport(location)
 infix fun Entity.to(entity: Entity) = this.teleport(entity)
 
 infix fun Entity.watch(loc: Location) {
-    loc.direction = loc.toVector().subtract(this.location.toVector())
+    this.location.direction = loc.toVector().subtract(this.location.toVector())
     this to loc
 }
 

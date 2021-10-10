@@ -48,7 +48,7 @@ fun Location.circle(radius: Double, gab: Double): List<Location> {
         val zLoc = sqrt(radius * radius - xLoc * xLoc)
 
         locationList.add(clone().add(xLoc, 0.0, zLoc))
-        locationList.add(clone().add(-xLoc, 0.0, zLoc))
+        locationList.add(clone().add(xLoc, 0.0, -zLoc))
     }
 
     return locationList
