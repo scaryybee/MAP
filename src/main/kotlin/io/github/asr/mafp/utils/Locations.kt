@@ -7,6 +7,7 @@ import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.event.entity.CreatureSpawnEvent
 import org.bukkit.util.Consumer
+import org.bukkit.util.Vector
 import kotlin.math.sqrt
 
 fun Location.spawnEntity(type: EntityType) {
@@ -46,10 +47,16 @@ fun Location.circle(radius: Double, gab: Double): List<Location> {
         val xLoc = i.toDouble() / 100
         val zLoc = sqrt(radius * radius - xLoc * xLoc)
 
-        locationList.add(Location(world, xLoc, this.y, zLoc))
+        locationList.add(clone().add(xLoc, 0.0, zLoc))
     }
 
     return locationList
 }
 
 fun Location.forward(distance: Double) = this.clone().add(this.direction.multiply(distance))
+
+fun Location.plus(vector: Vector) = clone().add(vector)
+
+fun Location.plus(location: Location) = clone().add(location)
+
+fun Location.plus(x: Double, y: Double, z: Double) = clone().add(x, y, z)

@@ -1,5 +1,6 @@
 package io.github.asr.mafp.entity
 
+import io.github.asr.mafp.utils.forward
 import org.bukkit.Location
 import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
@@ -27,3 +28,5 @@ infix fun Entity.watch(loc: Location) {
 }
 
 infix fun Entity.watch(entity: Entity) = this watch entity.location
+
+fun Entity.forward(distance: Double) = location.forward(distance)

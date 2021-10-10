@@ -1,9 +1,12 @@
 package io.github.asr.mafp.inventory
 
+import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.PlayerInventory
+import org.bukkit.plugin.Plugin
 
 fun Inventory.clearItem(inventoryRange: List<Int>,material: Material, amount: Int): Boolean {
     var number = 0
@@ -25,3 +28,5 @@ fun Inventory.clearItem(inventoryRange: List<Int>,material: Material, amount: In
 }
 
 fun PlayerInventory.getOwner(): Player = this.holder as Player
+
+fun Plugin.createInventory(type: InventoryType, title: Component) = server.createInventory(null, type, title)
