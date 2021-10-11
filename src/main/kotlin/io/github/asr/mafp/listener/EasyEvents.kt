@@ -35,6 +35,8 @@ class EasyEvents : Listener {
 
     private var playerClearAdvancement: PlayerAdvancementDoneEvent.() -> Unit = {}
 
+    private var playerConsume: PlayerItemConsumeEvent.() -> Unit = {}
+
     fun addEvent(plugin: Plugin) {
         plugin.server.pluginManager.registerEvents(this, plugin)
     }
@@ -64,6 +66,8 @@ class EasyEvents : Listener {
     fun onPlayerMove(action: PlayerMoveEvent.() -> Unit) { playerMove = action }
 
     fun onClearAdvancement(action: PlayerAdvancementDoneEvent.() -> Unit) { playerClearAdvancement = action }
+
+    fun onConsume(action: PlayerItemConsumeEvent.() -> Unit) { playerConsume = action }
 
     private fun checkHandType(typeList: List<EquipmentSlot>, event: PlayerInteractEvent): Boolean {
         if (typeList.isEmpty()) return true
@@ -116,4 +120,7 @@ class EasyEvents : Listener {
 
     @EventHandler
     private fun onPlayerClearAdvancementEvent(event: PlayerAdvancementDoneEvent) = playerClearAdvancement.invoke(event)
+
+    @EventHandler
+    private fun onPlayerItemConsumeEvent(event: PlayerItemConsumeEvent) = playerConsume.invoke(event)
 }

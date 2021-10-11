@@ -5,8 +5,7 @@ import org.bukkit.event.entity.EntityDamageEvent
 
 class MAPPlayerDeathEvent(
     private val event: EntityDamageEvent,
-    private val deathPlayer: Player,
-    private var cancelled: Boolean = false
+    private val deathPlayer: Player
 ) {
 
     val player: Player
