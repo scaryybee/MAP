@@ -135,7 +135,6 @@ enum class Tool(private val material : Material) {
         enum class Others(private val material : Material) {
             FLINT_AND_STEAL(Material.FLINT_AND_STEEL),
             COMPASS(Material.COMPASS),
-            SPYGLASS(Material.SPYGLASS),
             LEAD(Material.LEAD),
             NAME_TAG(Material.NAME_TAG);
 
