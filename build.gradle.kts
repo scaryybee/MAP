@@ -11,7 +11,7 @@ version = properties["version"]!!
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(16))
     }
 }
 
