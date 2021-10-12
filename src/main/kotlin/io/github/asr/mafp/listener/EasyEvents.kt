@@ -37,6 +37,8 @@ class EasyEvents : Listener {
 
     private var playerConsume: PlayerItemConsumeEvent.() -> Unit = {}
 
+    private var playerEnderPearl: MAPEnderPearlEvent.() -> Unit = {}
+
     fun addEvent(plugin: Plugin) {
         plugin.server.pluginManager.registerEvents(this, plugin)
     }
@@ -68,6 +70,8 @@ class EasyEvents : Listener {
     fun onClearAdvancement(action: PlayerAdvancementDoneEvent.() -> Unit) { playerClearAdvancement = action }
 
     fun onConsume(action: PlayerItemConsumeEvent.() -> Unit) { playerConsume = action }
+
+    fun onEnderPearl(action: MAPEnderPearlEvent.() -> Unit) { playerEnderPearl = action }
 
     private fun checkHandType(typeList: List<EquipmentSlot>, event: PlayerInteractEvent): Boolean {
         if (typeList.isEmpty()) return true
@@ -123,4 +127,9 @@ class EasyEvents : Listener {
 
     @EventHandler
     private fun onPlayerItemConsumeEvent(event: PlayerItemConsumeEvent) = playerConsume.invoke(event)
+
+    @EventHandler
+    private fun onPlayerTeleportEvent(event: PlayerTeleportEvent) {
+        if (event.cause == PlayerTeleportEvent.TeleportCause.ENDER_PEARL) playerEnderPearl.invoke(MAPEnderPearlEvent(event))
+    }
 }
