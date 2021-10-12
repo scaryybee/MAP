@@ -1,6 +1,5 @@
 package io.github.asr.mafp.loop
 
-import io.github.asr.mafp.utils.Task
 import io.github.asr.mafp.utils.wait
 import org.bukkit.plugin.Plugin
 

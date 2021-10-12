@@ -5,6 +5,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.block.Action
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.player.*
 import org.bukkit.inventory.EquipmentSlot
@@ -14,6 +15,9 @@ import org.bukkit.plugin.Plugin
 fun Plugin.events(init: EasyEvents.() -> Unit) {
     EasyEvents().apply(init).addEvent(this)
 }
+
+private fun Action.isRightClick() = this == Action.RIGHT_CLICK_AIR || this == Action.RIGHT_CLICK_BLOCK
+private fun Action.isLeftClick() = this == Action.LEFT_CLICK_AIR || this == Action.LEFT_CLICK_BLOCK
 
 class EasyEvents : Listener {
     private val itemMap = mutableMapOf<ItemStack, PlayerInteractEvent.() -> Unit>()
@@ -80,8 +84,8 @@ class EasyEvents : Listener {
 
     @EventHandler
     private fun onPlayerInteractEvent(event: PlayerInteractEvent) {
-        if (event.action.isRightClick && checkHandType(rightClickHandType, event)) rightClick.invoke(event)
-        if (event.action.isLeftClick && checkHandType(leftClickHandType, event)) leftClick.invoke(event)
+        if (event.action.isRightClick() && checkHandType(rightClickHandType, event)) rightClick.invoke(event)
+        if (event.action.isLeftClick() && checkHandType(leftClickHandType, event)) leftClick.invoke(event)
 
         val mainHandItem = event.player.inventory.itemInMainHand
         val offHandItem = event.player.inventory.itemInOffHand
