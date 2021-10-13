@@ -16,10 +16,6 @@ fun Location.spawnEntity(type: EntityType) {
     world.spawnEntity(this, type)
 }
 
-fun Location.spawnEntity(type: EntityType, randomizeData: Boolean) {
-    world.spawnEntity(this, type, randomizeData)
-}
-
 fun Location.spawnEntity(type: EntityType, reason: CreatureSpawnEvent.SpawnReason, function: Consumer<Entity>?) {
     world.spawnEntity(this, type, reason, function)
 }
