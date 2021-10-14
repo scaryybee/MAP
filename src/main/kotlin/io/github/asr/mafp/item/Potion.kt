@@ -14,6 +14,8 @@ val ItemStack.potionTypes: List<PotionEffectType>
             (this.itemMeta as PotionMeta).customEffects.forEach {
                 potionTypeList.add(it.type)
             }
+            
+            return potionTypeList
         }
 
         throw RuntimeException()
