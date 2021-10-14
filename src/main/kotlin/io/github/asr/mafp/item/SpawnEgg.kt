@@ -14,7 +14,6 @@ fun Material.toSpawnEgg(): SpawnEgg? {
 fun Material.isSpawnEgg(): Boolean = SpawnEgg.valuesList().contains(this.toSpawnEgg())
 
 enum class SpawnEgg(val material: Material, val entityType: EntityType) {
-    AXOLOTL(Material.AXOLOTL_SPAWN_EGG, EntityType.AXOLOTL),
     BAT(Material.BAT_SPAWN_EGG, EntityType.BAT),
     BEE(Material.BEE_SPAWN_EGG, EntityType.BEE),
     BLAZE(Material.BLAZE_SPAWN_EGG, EntityType.BLAZE),
@@ -33,8 +32,6 @@ enum class SpawnEgg(val material: Material, val entityType: EntityType) {
     EVOKER(Material.EVOKER_SPAWN_EGG, EntityType.EVOKER),
     FOX(Material.FOX_SPAWN_EGG, EntityType.FOX),
     GHAST(Material.GHAST_SPAWN_EGG, EntityType.GHAST),
-    GLOW_SQUID(Material.GLOW_SQUID_SPAWN_EGG, EntityType.GLOW_SQUID),
-    GOAT(Material.GOAT_SPAWN_EGG, EntityType.GOAT),
     GUARDIAN(Material.GUARDIAN_SPAWN_EGG, EntityType.GUARDIAN),
     HOGLIN(Material.HOGLIN_SPAWN_EGG, EntityType.HOGLIN),
     HORSE(Material.HORSE_SPAWN_EGG, EntityType.HORSE),
