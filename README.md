@@ -49,6 +49,11 @@ Sample
 class Sample : JavaPlugin() {
     override fun onEnable() {
         val sampleWorld = addWorld(NamespacedKey("sample"))
+
+        elseEvent<PlayerDropItemEvent> {
+            this.isCancelled = true
+        }
+        
         events {
             onPlayerJoin {
                 wait(10.0) {
