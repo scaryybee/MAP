@@ -12,25 +12,17 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-fun Location.spawnEntity(type: EntityType) {
-    world.spawnEntity(this, type)
-}
+fun Location.spawnEntity(type: EntityType) = world.spawnEntity(this, type)
 
-fun Location.spawnEntity(type: EntityType, randomizeData: Boolean) {
-    world.spawnEntity(this, type, randomizeData)
-}
+fun Location.spawnEntity(type: EntityType, randomizeData: Boolean) = world.spawnEntity(this, type, randomizeData)
 
-fun Location.spawnEntity(type: EntityType, reason: CreatureSpawnEvent.SpawnReason) {
-    world.spawnEntity(this, type, reason)
-}
+fun Location.spawnEntity(type: EntityType, reason: CreatureSpawnEvent.SpawnReason) = world.spawnEntity(this, type, reason)
 
-fun Location.spawnEntity(type: EntityType, reason: CreatureSpawnEvent.SpawnReason, function: Consumer<Entity>?) {
+fun Location.spawnEntity(type: EntityType, reason: CreatureSpawnEvent.SpawnReason, function: Consumer<Entity>?) =
     world.spawnEntity(this, type, reason, function)
-}
 
-fun Location.spawnEntity(type: EntityType, reason: CreatureSpawnEvent.SpawnReason, function: (Entity) -> Unit) {
+fun Location.spawnEntity(type: EntityType, reason: CreatureSpawnEvent.SpawnReason, function: (Entity) -> Unit) =
     world.spawnEntity(this, type, reason, function)
-}
 
 
 fun Location.spawnParticle(particle: Particle, number: Int) {
