@@ -75,6 +75,10 @@ class Sample : JavaPlugin() {
     
     private fun sendMessageToPlayers(playerList: List<Player>) {
         playerList.forEach { 
+            it.elseEvent<PlayerMoveEvent>(this@Sample) {
+                this.isCancelled = this.hasChangedBlock()
+            }
+            
             Component.text("Hello!") sendTo it
             
             it to Location(overWorld, 0.0, 60.0, 0.0)
