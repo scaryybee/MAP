@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.entity.EntityDamageEvent
+import org.bukkit.event.entity.EntityShootBowEvent
 import org.bukkit.event.player.*
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
@@ -43,6 +44,8 @@ class EasyEvents : Listener {
 
     private var playerEnderPearl: MAPEnderPearlEvent.() -> Unit = {}
 
+    private var shootBow: EntityShootBowEvent.() -> Unit = {}
+
     fun addEvent(plugin: Plugin) {
         plugin.server.pluginManager.registerEvents(this, plugin)
     }
@@ -76,6 +79,8 @@ class EasyEvents : Listener {
     fun onConsume(action: PlayerItemConsumeEvent.() -> Unit) { playerConsume = action }
 
     fun onEnderPearl(action: MAPEnderPearlEvent.() -> Unit) { playerEnderPearl = action }
+
+    fun onShootBow(action: EntityShootBowEvent.() -> Unit) { shootBow = action }
 
     private fun checkHandType(typeList: List<EquipmentSlot>, event: PlayerInteractEvent): Boolean {
         if (typeList.isEmpty()) return true
@@ -136,4 +141,7 @@ class EasyEvents : Listener {
     private fun onPlayerTeleportEvent(event: PlayerTeleportEvent) {
         if (event.cause == PlayerTeleportEvent.TeleportCause.ENDER_PEARL) playerEnderPearl.invoke(MAPEnderPearlEvent(event))
     }
+
+    @EventHandler
+    private fun onEntityShootBowEvent(event: EntityShootBowEvent) = shootBow.invoke(event)
 }

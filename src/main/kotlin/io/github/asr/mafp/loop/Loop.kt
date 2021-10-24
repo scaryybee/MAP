@@ -1,25 +1,13 @@
 package io.github.asr.mafp.loop
 
 import io.github.asr.mafp.utils.wait
+import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 import java.util.*
 
 private lateinit var loopActionMap: MutableMap<UUID, Loop.() -> Unit>
 
-fun Plugin.loop(tickGab: Long, endLoop: Int, action: Loop.() -> Unit) {
-    val loop = Loop()
-    loopActionMap[loop.uuid()] = action
-    val task = server.scheduler.scheduleSyncRepeatingTask(
-        this, {
-            action.invoke(loop)
-            loop.looping()
-        }, 0L, tickGab
-    )
-
-    wait(endLoop * tickGab) { server.scheduler.cancelTask(task) }
-}
-
-fun Plugin.loop(tickGab: Long, endLoop: Int, timeStart: Int, action: Loop.() -> Unit) {
+fun Plugin.loop(tickGab: Long, endLoop: Int, timeStart: Int = 0, action: Loop.() -> Unit) {
     val loop = Loop(timeStart)
     loopActionMap[loop.uuid()] = action
     val task = server.scheduler.scheduleSyncRepeatingTask(
@@ -31,8 +19,8 @@ fun Plugin.loop(tickGab: Long, endLoop: Int, timeStart: Int, action: Loop.() -> 
     wait(endLoop * tickGab) { server.scheduler.cancelTask(task) }
 }
 
-fun Plugin.infLoop(tickGab: Long, action: Loop.() -> Unit) {
-    val loop = Loop()
+fun Plugin.infLoop(tickGab: Long, timeStart: Int = 0, action: Loop.() -> Unit) {
+    val loop = Loop(timeStart)
     loopActionMap[loop.uuid()] = action
     server.scheduler.scheduleSyncRepeatingTask(
         this, {
