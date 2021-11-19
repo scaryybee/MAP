@@ -24,12 +24,12 @@ fun Player.kill() { this.health = 0.0 }
 
 fun Plugin.hidePlayerInGame(player: Player) = Bukkit.getOnlinePlayers().forEach { it.hidePlayer(this, player) }
 
-fun Plugin.offlinePlayer(name: String): OfflinePlayer? {
-    server.offlinePlayers.forEach { if (it.name == name) return it }
+fun offlinePlayer(name: String): OfflinePlayer? {
+    Bukkit.getServer().offlinePlayers.forEach { if (it.name == name) return it }
     return null
 }
 
-fun Plugin.offlinePlayer(uuid: UUID): OfflinePlayer = server.getOfflinePlayer(uuid)
+fun offlinePlayer(uuid: UUID): OfflinePlayer = Bukkit.getServer().getOfflinePlayer(uuid)
 
 fun Plugin.player(name: String): Player? {
     server.onlinePlayers.forEach { if (it.name == name) return it }
