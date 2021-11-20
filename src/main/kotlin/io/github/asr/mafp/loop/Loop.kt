@@ -5,7 +5,7 @@ import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 import java.util.*
 
-private lateinit var loopActionMap: MutableMap<UUID, Loop.() -> Unit>
+private val loopActionMap = mutableMapOf<UUID, Loop.() -> Unit>()
 
 fun Plugin.loop(tickGab: Long, endLoop: Int, timeStart: Int = 0, action: Loop.() -> Unit) {
     val loop = Loop(timeStart)
