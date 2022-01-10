@@ -8,6 +8,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityShootBowEvent
+import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.*
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
@@ -21,66 +22,66 @@ private fun Action.isRight() = this == Action.RIGHT_CLICK_AIR || this == Action.
 private fun Action.isLeft() = this == Action.LEFT_CLICK_AIR || this == Action.LEFT_CLICK_BLOCK
 
 class EasyEvents : Listener {
-    private val itemMap = mutableMapOf<ItemStack, PlayerInteractEvent.() -> Unit>()
-    private val materialMap = mutableMapOf<Material, PlayerInteractEvent.() -> Unit>()
+    private val itemMap = mutableMapOf<ItemStack, (event: PlayerInteractEvent) -> Unit>()
+    private val materialMap = mutableMapOf<Material, (event: PlayerInteractEvent) -> Unit>()
 
-    private var rightClick: PlayerInteractEvent.() -> Unit = {}
-    private var leftClick: PlayerInteractEvent.() -> Unit = {}
-    private var playerDeath: MAPPlayerDeathEvent.() -> Unit = {}
+    private var rightClick: (event: PlayerInteractEvent) -> Unit = {}
+    private var leftClick: (event: PlayerInteractEvent) -> Unit = {}
+    private var playerDeath: (event: PlayerDeathEvent) -> Unit = {}
 
     private var rightClickHandType = mutableListOf<EquipmentSlot>()
     private var leftClickHandType = mutableListOf<EquipmentSlot>()
 
-    private var playerJoin: PlayerJoinEvent.() -> Unit = {}
-    private var playerQuit: PlayerQuitEvent.() -> Unit = {}
+    private var playerJoin: (event: PlayerJoinEvent) -> Unit = {}
+    private var playerQuit: (event: PlayerQuitEvent) -> Unit = {}
 
-    private var playerSendMessage: MAPPlayerChatEvent.() -> Unit = {}
+    private var playerSendMessage: (event: AsyncChatEvent) -> Unit = {}
 
-    private var playerMove: PlayerMoveEvent.() -> Unit = {}
+    private var playerMove: (event: PlayerMoveEvent) -> Unit = {}
 
-    private var playerClearAdvancement: PlayerAdvancementDoneEvent.() -> Unit = {}
+    private var playerClearAdvancement: (event: PlayerAdvancementDoneEvent) -> Unit = {}
 
-    private var playerConsume: PlayerItemConsumeEvent.() -> Unit = {}
+    private var playerConsume: (event: PlayerItemConsumeEvent) -> Unit = {}
 
-    private var playerEnderPearl: MAPEnderPearlEvent.() -> Unit = {}
+    private var playerEnderPearl: (event: MAPEnderPearlEvent) -> Unit = {}
 
-    private var shootBow: EntityShootBowEvent.() -> Unit = {}
+    private var shootBow: (event: EntityShootBowEvent) -> Unit = {}
 
     fun addEvent(plugin: Plugin) {
         plugin.server.pluginManager.registerEvents(this, plugin)
     }
 
-    fun onRightClick(vararg handType: EquipmentSlot = emptyArray(), action: PlayerInteractEvent.() -> Unit) {
+    fun onRightClick(vararg handType: EquipmentSlot = emptyArray(), action: (event: PlayerInteractEvent) -> Unit) {
         handType.forEach { rightClickHandType.add(it) }
         rightClick = action
     }
 
-    fun onLeftClick(vararg handType: EquipmentSlot = emptyArray(), action: PlayerInteractEvent.() -> Unit) {
+    fun onLeftClick(vararg handType: EquipmentSlot = emptyArray(), action: (event: PlayerInteractEvent) -> Unit) {
         handType.forEach { leftClickHandType.add(it) }
         leftClick = action
     }
 
-    infix fun ItemStack.withInteract(action: PlayerInteractEvent.() -> Unit) { itemMap[this] = action }
+    infix fun ItemStack.withInteract(action: (event: PlayerInteractEvent) -> Unit) { itemMap[this] = action }
 
-    infix fun Material.withInteract(action: PlayerInteractEvent.() -> Unit) { materialMap[this] = action }
+    infix fun Material.withInteract(action: (event: PlayerInteractEvent) -> Unit) { materialMap[this] = action }
 
-    fun onPlayerDeath(action: MAPPlayerDeathEvent.() -> Unit) { playerDeath = action }
+    fun onPlayerDeath(action: (event: PlayerDeathEvent) -> Unit) { playerDeath = action }
 
-    fun onPlayerJoin(action: PlayerJoinEvent.() -> Unit) { playerJoin = action }
+    fun onPlayerJoin(action: (event: PlayerJoinEvent) -> Unit) { playerJoin = action }
 
-    fun onPlayerQuit(action: PlayerQuitEvent.() -> Unit) { playerQuit = action }
+    fun onPlayerQuit(action: (event: PlayerQuitEvent) -> Unit) { playerQuit = action }
 
-    fun onChat(action: MAPPlayerChatEvent.() -> Unit) { playerSendMessage = action }
+    fun onChat(action: (event: AsyncChatEvent) -> Unit) { playerSendMessage = action }
 
-    fun onPlayerMove(action: PlayerMoveEvent.() -> Unit) { playerMove = action }
+    fun onPlayerMove(action: (event: PlayerMoveEvent) -> Unit) { playerMove = action }
 
-    fun onClearAdvancement(action: PlayerAdvancementDoneEvent.() -> Unit) { playerClearAdvancement = action }
+    fun onClearAdvancement(action: (event: PlayerAdvancementDoneEvent) -> Unit) { playerClearAdvancement = action }
 
-    fun onConsume(action: PlayerItemConsumeEvent.() -> Unit) { playerConsume = action }
+    fun onConsume(action: (event: PlayerItemConsumeEvent) -> Unit) { playerConsume = action }
 
-    fun onEnderPearl(action: MAPEnderPearlEvent.() -> Unit) { playerEnderPearl = action }
+    fun onEnderPearl(action: (event: MAPEnderPearlEvent) -> Unit) { playerEnderPearl = action }
 
-    fun onShootBow(action: EntityShootBowEvent.() -> Unit) { shootBow = action }
+    fun onShootBow(action: (event: EntityShootBowEvent) -> Unit) { shootBow = action }
 
     private fun checkHandType(typeList: List<EquipmentSlot>, event: PlayerInteractEvent): Boolean {
         if (typeList.isEmpty()) return true
@@ -102,15 +103,7 @@ class EasyEvents : Listener {
     }
 
     @EventHandler
-    private fun onEntityDamageEvent(event: EntityDamageEvent) {
-        if (event.entity !is Player) return
-        val player = event.entity as Player
-
-        val checkList = listOf(player.inventory.itemInMainHand.type, player.inventory.itemInOffHand.type)
-
-        if (checkList.contains(Material.TOTEM_OF_UNDYING)) return
-        if (player.health < event.damage) playerDeath.invoke(MAPPlayerDeathEvent(event, player))
-    }
+    private fun onPlayerDeath(event: PlayerDeathEvent) = playerDeath.invoke(event)
 
     @EventHandler
     private fun onPlayerJoinEvent(event: PlayerJoinEvent) = playerJoin.invoke(event)
@@ -119,14 +112,7 @@ class EasyEvents : Listener {
     private fun onPlayerQuitEvent(event: PlayerQuitEvent) = playerQuit.invoke(event)
 
     @EventHandler
-    private fun onAsyncChatEvent(event: AsyncChatEvent) {
-        val targets = mutableListOf<Player>()
-        event.viewers().forEach {
-            targets.add(it as Player)
-        }
-
-        playerSendMessage.invoke(MAPPlayerChatEvent(event, event.player))
-    }
+    private fun onAsyncChatEvent(event: AsyncChatEvent) = playerSendMessage.invoke(event)
 
     @EventHandler
     private fun onPlayerMoveEvent(event: PlayerMoveEvent) = playerMove.invoke(event)
