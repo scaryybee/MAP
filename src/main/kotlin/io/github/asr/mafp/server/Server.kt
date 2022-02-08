@@ -3,6 +3,7 @@ package io.github.asr.mafp.server
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Sound
+import org.bukkit.event.Listener
 import org.bukkit.plugin.Plugin
 
 fun Sound.broadcast(volume: Float, pitch: Float) = Bukkit
@@ -13,3 +14,9 @@ fun Component.broadcast() = Bukkit.broadcast(this)
 fun Plugin.reload() = server.reload()
 
 fun Plugin.unload() = server.pluginManager.disablePlugin(this)
+
+fun Plugin.registerListeners(vararg listeners: Listener) {
+    listeners.forEach {
+        server.pluginManager.registerEvents(it, this)
+    }
+}
