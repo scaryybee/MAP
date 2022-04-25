@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.5.31"
-    id("com.github.johnrengelman.shadow") version "7.0.0"
+    kotlin("jvm") version "1.6.10"
+    id("com.github.johnrengelman.shadow") version "6.1.0"
     id("org.jetbrains.dokka") version "1.5.0"
     `maven-publish`
     signing
@@ -11,7 +11,7 @@ version = properties["version"]!!
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(16))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
@@ -22,8 +22,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
-    // compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT") // Downgrade for Another Project
+    compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
 }
 
 tasks {
