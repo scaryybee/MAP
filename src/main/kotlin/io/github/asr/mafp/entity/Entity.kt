@@ -18,9 +18,9 @@ class Entities {
 
 fun EntityType.create(location: Location): Entity = Entities.create(this, location)
 
-infix fun Entity.to(location: Location) = this.teleport(location)
+infix fun Entity.tpTo(location: Location) = this.teleport(location)
 
-infix fun Entity.to(entity: Entity) = this.teleport(entity)
+infix fun Entity.tpTo(entity: Entity) = this.teleport(entity)
 
 infix fun Entity.watch(loc: Location) {
     val cloneLoc = location.clone()
