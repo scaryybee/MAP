@@ -16,7 +16,7 @@ Maven ( pom.xml )
 </repositories>
 
 <dependency>
-    <groupId>com.github.AtSignRANK</groupId>
+    <groupId>com.github.qLarge</groupId>
     <artifactId>MAP</artifactId>
     <version>Version</version>
 </dependency>
@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    implementation "com.github.AtSignRANK:MAP:Version"
+    implementation "com.github.qLarge:MAP:Version"
 }
 ```
 
@@ -40,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.AtSignRANK:MAP:Version")
+    implementation("com.github.qLarge:MAP:Version")
 }
 ```
 
